@@ -1,0 +1,29 @@
+{
+  "name": "Style Modifier",
+  "description": "A powerful tool for modifying webpage styles, removing elements, and cleaning up ads.",
+  "version": "1.0",
+  "manifest_version": 3,
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "sidePanel"
+  ],
+  "icons": {
+    "16": "icons/icon.png",
+    "48": "icons/icon.png",
+    "128": "icons/icon.png"
+  },
+  "action": {
+    "default_title": "Open Style Modifier",
+    "default_icon": {
+      "16": "icons/icon.png",
+      "48": "icons/icon.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "side_panel": {
+    "default_path": "popup/index.html"
+  }
+}

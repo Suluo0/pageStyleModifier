@@ -1,0 +1,208 @@
+/**
+ * Style Modifier - Popup Styles
+ */
+
+/* Base */
+body {
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 15px;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #f8f9fa;
+    overflow-y: auto;
+}
+
+/* Header */
+h1 {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Interaction Area */
+#interaction-area {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Control Groups */
+.control-group {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.control-header {
+    padding: 12px 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    border-bottom: 1px solid transparent;
+    transition: background-color 0.2s;
+}
+
+.control-header:hover {
+    background-color: #f1f3f5;
+}
+
+.control-header.active {
+    background-color: #e9ecef;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.control-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #495057;
+}
+
+.control-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    background-color: #fff;
+}
+
+.control-content.open {
+    max-height: 800px;
+    padding: 15px;
+    overflow: visible;
+}
+
+/* Sub Features */
+.sub-feature {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.sub-feature:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.sub-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Buttons */
+.action-btn {
+    width: 100%;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background-color 0.2s;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.btn-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.btn-info:hover {
+    background-color: #138496;
+}
+
+/* Color Inputs */
+.color-inputs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+input[type="color"] {
+    width: 40px;
+    height: 30px;
+    border: none;
+    padding: 0;
+    background: none;
+    cursor: pointer;
+}
+
+input[type="text"] {
+    flex: 1;
+    padding: 6px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+/* Status Indicator */
+.status-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #ccc;
+    margin-right: 8px;
+    transition: all 0.2s ease;
+}
+
+.status-indicator.active {
+    background-color: #28a745;
+    box-shadow: 0 0 4px #28a745;
+}
+
+/* Description Text */
+.desc-text {
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+    margin-bottom: 0;
+}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Style Modifier</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <h1 id="main-title">
+        <span id="app-title">Style Modifier</span>
+    </h1>
+    
+    <div id="interaction-area">
+        <!-- Interface Style Group -->
+        <div class="control-group" id="group-interface">
+            <div class="control-header">
+                <span class="control-title" id="title-interface">Interface Style</span>
+                <span class="status-indicator" id="status-bg"></span>
+            </div>
+            <div class="control-content">
+                <!-- Page Background Color -->
+                <div class="sub-feature">
+                    <span class="sub-title" id="subtitle-page-bg">Page Background Color</span>
+                    <div class="color-inputs">
+                        <input type="color" id="page-bg-color-input" value="#ffffff">
+                        <input type="text" id="page-bg-color-text" value="#ffffff">
+                    </div>
+                    <button class="action-btn btn-success" id="btn-set-body-bg">Set Body Bg</button>
+                    <button class="action-btn btn-info" id="btn-set-global-bg">Force Global Bg</button>
+                </div>
+
+                <!-- Element Background -->
+                <div class="sub-feature">
+                    <span class="sub-title" id="subtitle-element-bg">Element Background</span>
+                    <button class="action-btn btn-primary" id="btn-toggle-element-bg">Start Modifying Bg</button>
+                    <p class="desc-text" id="desc-element-bg">Enable to modify element background color.</p>
+                </div>
+
+
+            </div>
+        </div>
+
+        <!-- Font Style Group -->
+        <div class="control-group" id="group-font">
+            <div class="control-header">
+                <span class="control-title" id="title-font">Change Font Style</span>
+                <span class="status-indicator" id="status-font"></span>
+            </div>
+            <div class="control-content">
+                <button class="action-btn btn-primary" id="btn-toggle-font">Start Modifying</button>
+                <p class="desc-text" id="desc-font">Enable to modify element font styles.</p>
+            </div>
+        </div>
+
+        <!-- Remove Element Group -->
+        <div class="control-group" id="group-remove">
+            <div class="control-header">
+                <span class="control-title" id="title-remove">Remove Element</span>
+                <span class="status-indicator" id="status-remove"></span>
+            </div>
+            <div class="control-content">
+                <button class="action-btn btn-danger" id="btn-toggle-remove">Start Removing</button>
+                <p class="desc-text" id="desc-remove">Enable to remove elements from page.</p>
+            </div>
+        </div>
+
+        <!-- Amazon Tools Group -->
+        <div class="control-group" id="group-amazon">
+            <div class="control-header">
+                <span class="control-title" id="title-amazon">Amazon Tools</span>
+                <span class="status-indicator"></span>
+            </div>
+            <div class="control-content">
+                <button class="action-btn btn-warning" id="btn-remove-sponsored">Remove Sponsored</button>
+                <p class="desc-text" id="desc-amazon">Auto remove sponsored products on Amazon.</p>
+                
+                <!-- Grid Column Adjuster -->
+                <div class="sub-feature" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
+                    <span class="sub-title" id="btn-adjust-grid">Adjust Columns</span>
+                    <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
+                        <span style="font-size: 12px; color: #666;" id="grid-columns-label">Columns:</span>
+                        <input type="range" id="grid-columns-input" min="2" max="8" value="4" 
+                               style="flex: 1; cursor: pointer;">
+                        <span style="font-size: 14px; font-weight: bold; min-width: 20px; text-align: center;" 
+                              id="grid-columns-value">4</span>
+                    </div>
+                    <p class="desc-text" id="desc-grid-columns">Adjust the number of columns for Amazon search results.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../common/i18n.js"></script>
+    <script src="popup.js"></script>
+</body>
+</html>
