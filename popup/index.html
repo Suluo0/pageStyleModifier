@@ -7,88 +7,133 @@
     <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-    <h1 id="main-title">
-        <span id="app-title">Style Modifier</span>
-    </h1>
+    <header class="app-header">
+        <h1 id="app-title">Style Modifier</h1>
+    </header>
     
-    <div id="interaction-area">
-        <!-- Interface Style Group -->
-        <div class="control-group" id="group-interface">
-            <div class="control-header">
-                <span class="control-title" id="title-interface">Interface Style</span>
-                <span class="status-indicator" id="status-bg"></span>
-            </div>
-            <div class="control-content">
-                <!-- Page Background Color -->
-                <div class="sub-feature">
-                    <span class="sub-title" id="subtitle-page-bg">Page Background Color</span>
-                    <div class="color-inputs">
-                        <input type="color" id="page-bg-color-input" value="#ffffff">
-                        <input type="text" id="page-bg-color-text" value="#ffffff">
+    <div class="panel-container">
+        <!-- Appearance Section -->
+        <section class="panel-section">
+            <h4 class="section-title" id="section-appearance">Appearance</h4>
+            <div class="section-content">
+                <!-- Page Background -->
+                <div class="feature-item">
+                    <div class="feature-header">
+                        <span class="feature-title" id="label-page-bg">Page Background</span>
                     </div>
-                    <button class="action-btn btn-success" id="btn-set-body-bg">Set Body Bg</button>
-                    <button class="action-btn btn-info" id="btn-set-global-bg">Force Global Bg</button>
+                    <div class="feature-body">
+                        <div class="color-row">
+                            <input type="color" id="page-bg-color-input" value="#ffffff">
+                            <input type="text" id="page-bg-color-text" value="#ffffff" class="color-text-input">
+                        </div>
+                        <div class="btn-row">
+                            <button class="btn btn-small" id="btn-set-body-bg">Set</button>
+                            <button class="btn btn-small" id="btn-set-global-bg">Unify</button>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="feature-divider"></div>
 
                 <!-- Element Background -->
-                <div class="sub-feature">
-                    <span class="sub-title" id="subtitle-element-bg">Element Background</span>
-                    <button class="action-btn btn-primary" id="btn-toggle-element-bg">Start Modifying Bg</button>
-                    <p class="desc-text" id="desc-element-bg">Enable to modify element background color.</p>
-                </div>
-
-
-            </div>
-        </div>
-
-        <!-- Font Style Group -->
-        <div class="control-group" id="group-font">
-            <div class="control-header">
-                <span class="control-title" id="title-font">Change Font Style</span>
-                <span class="status-indicator" id="status-font"></span>
-            </div>
-            <div class="control-content">
-                <button class="action-btn btn-primary" id="btn-toggle-font">Start Modifying</button>
-                <p class="desc-text" id="desc-font">Enable to modify element font styles.</p>
-            </div>
-        </div>
-
-        <!-- Remove Element Group -->
-        <div class="control-group" id="group-remove">
-            <div class="control-header">
-                <span class="control-title" id="title-remove">Remove Element</span>
-                <span class="status-indicator" id="status-remove"></span>
-            </div>
-            <div class="control-content">
-                <button class="action-btn btn-danger" id="btn-toggle-remove">Start Removing</button>
-                <p class="desc-text" id="desc-remove">Enable to remove elements from page.</p>
-            </div>
-        </div>
-
-        <!-- Amazon Tools Group -->
-        <div class="control-group" id="group-amazon">
-            <div class="control-header">
-                <span class="control-title" id="title-amazon">Amazon Tools</span>
-                <span class="status-indicator"></span>
-            </div>
-            <div class="control-content">
-                <button class="action-btn btn-warning" id="btn-remove-sponsored">Remove Sponsored</button>
-                <p class="desc-text" id="desc-amazon">Auto remove sponsored products on Amazon.</p>
-                
-                <!-- Grid Column Adjuster -->
-                <div class="sub-feature" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
-                    <span class="sub-title" id="btn-adjust-grid">Adjust Columns</span>
-                    <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
-                        <span style="font-size: 12px; color: #666;" id="grid-columns-label">Columns:</span>
-                        <input type="range" id="grid-columns-input" min="2" max="8" value="4" 
-                               style="flex: 1; cursor: pointer;">
-                        <span style="font-size: 14px; font-weight: bold; min-width: 20px; text-align: center;" 
-                              id="grid-columns-value">4</span>
+                <div class="feature-item">
+                    <div class="feature-header">
+                        <span class="feature-title" id="label-element-bg">Element Background</span>
+                        <span class="status-dot" id="status-bg"></span>
                     </div>
-                    <p class="desc-text" id="desc-grid-columns">Adjust the number of columns for Amazon search results.</p>
+                    <div class="feature-body">
+                        <button class="btn" id="btn-toggle-element-bg">Start Editing</button>
+                        <p class="feature-desc" id="desc-element-bg">Click element to change its background</p>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <!-- Text Style Section -->
+        <section class="panel-section">
+            <h4 class="section-title" id="section-text">Text Style</h4>
+            <div class="section-content">
+                <div class="feature-item">
+                    <div class="feature-header">
+                        <span class="feature-title">Font Style</span>
+                        <span class="status-dot" id="status-font"></span>
+                    </div>
+                    <div class="feature-body">
+                        <button class="btn" id="btn-toggle-font">Start Editing</button>
+                        <p class="feature-desc" id="desc-font">Click text to change its style</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hide Elements Section -->
+        <section class="panel-section">
+            <h4 class="section-title" id="section-hide">Hide Elements</h4>
+            <div class="section-content">
+                <div class="feature-item">
+                    <div class="feature-header">
+                        <span class="feature-title">Hide Element</span>
+                        <span class="status-dot" id="status-remove"></span>
+                    </div>
+                    <div class="feature-body">
+                        <button class="btn" id="btn-toggle-remove">Start Hiding</button>
+                        <p class="feature-desc" id="desc-remove">Click element to hide it</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Layout Section -->
+        <section class="panel-section">
+            <h4 class="section-title" id="section-layout">Layout</h4>
+            <div class="section-content">
+                <!-- Adjust Spacing -->
+                <div class="feature-item">
+                    <div class="feature-header">
+                        <span class="feature-title" id="label-spacing">Adjust Spacing</span>
+                        <span class="status-dot" id="status-layout"></span>
+                    </div>
+                    <div class="feature-body">
+                        <button class="btn" id="btn-toggle-spacing">Start Adjusting</button>
+                        <p class="feature-desc" id="desc-spacing">Click element to adjust margin/padding</p>
+                    </div>
+                </div>
+
+                <div class="feature-divider"></div>
+
+                <!-- Adjust Columns -->
+                <div class="feature-item">
+                    <div class="feature-header">
+                        <span class="feature-title" id="label-columns">Adjust Columns</span>
+                    </div>
+                    <div class="feature-body">
+                        <div class="slider-row">
+                            <span class="slider-label" id="grid-columns-label">Columns:</span>
+                            <input type="range" id="grid-columns-input" min="2" max="8" value="5" class="slider-input">
+                            <span class="slider-value" id="grid-columns-value">5</span>
+                        </div>
+                        <button class="btn btn-small" id="btn-apply-columns">Apply</button>
+                        <p class="feature-desc" id="desc-grid-columns">Adjust grid columns (2-8)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Amazon Tools Section -->
+        <section class="panel-section">
+            <h4 class="section-title" id="section-amazon">Amazon Tools</h4>
+            <div class="section-content">
+                <div class="feature-item">
+                    <div class="feature-header">
+                        <span class="feature-title">Remove Ads</span>
+                    </div>
+                    <div class="feature-body">
+                        <button class="btn" id="btn-remove-sponsored">Remove Ads</button>
+                        <p class="feature-desc" id="desc-amazon">Auto hide sponsored products</p>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
     <script src="../common/i18n.js"></script>

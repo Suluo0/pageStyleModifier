@@ -16,6 +16,7 @@
     const editors = {
         style: null,
         background: null,
+        layout: null,
         remove: null
     };
 
@@ -38,6 +39,11 @@
             case 'background':
                 if (window.SMBgEditor) {
                     editors[mode] = new window.SMBgEditor();
+                }
+                break;
+            case 'layout':
+                if (window.SMLayoutEditor) {
+                    editors[mode] = new window.SMLayoutEditor();
                 }
                 break;
             case 'remove':

@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const state = {
         fontMode: false,
         removeMode: false,
-        bgMode: false
+        bgMode: false,
+        layoutMode: false
     };
 
     // ========== 公共模块路径（初始化时加载） ==========
@@ -25,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const FEATURE_SCRIPTS = {
         style: ['features/style-editor.js'],
         background: ['features/bg-editor.js'],
+        layout: ['features/layout-editor.js'],
         remove: ['features/remover.js'],
         amazon: ['features/amazon-cleaner.js'],
         amazonGrid: ['features/amazon-grid-adjuster.js']
@@ -38,29 +40,36 @@ document.addEventListener('DOMContentLoaded', function() {
         // App Title
         setText('app-title', i18n.get('title'));
 
-        // Interface Style Group
-        setText('title-interface', i18n.get('interfaceStyle'));
-        setText('subtitle-page-bg', i18n.get('pageBackground'));
+        // Section Titles
+        setText('section-appearance', i18n.get('interfaceStyle'));
+        setText('section-text', i18n.get('changeFont'));
+        setText('section-hide', i18n.get('removeElement'));
+        setText('section-layout', i18n.get('layoutTools'));
+        setText('section-amazon', i18n.get('amazonTools'));
+
+        // Appearance
+        setText('label-page-bg', i18n.get('pageBackground'));
         setText('btn-set-body-bg', i18n.get('setBodyBg'));
         setText('btn-set-global-bg', i18n.get('setGlobalBg'));
-        setText('subtitle-element-bg', i18n.get('elementBg'));
+        setText('label-element-bg', i18n.get('elementBg'));
         setText('desc-element-bg', i18n.get('descElementBg'));
 
-        // Font Group
-        setText('title-font', i18n.get('changeFont'));
+        // Text Style
         setText('desc-font', i18n.get('descFont'));
 
-        // Remove Group
-        setText('title-remove', i18n.get('removeElement'));
+        // Hide Elements
         setText('desc-remove', i18n.get('descRemove'));
 
-        // Amazon Group
-        setText('title-amazon', i18n.get('amazonTools'));
-        setText('btn-remove-sponsored', i18n.get('removeSponsored'));
-        setText('desc-amazon', i18n.get('descAmazon'));
-        setText('btn-adjust-grid', i18n.get('adjustGridColumns'));
+        // Layout
+        setText('label-spacing', i18n.get('adjustSpacing'));
+        setText('desc-spacing', i18n.get('descSpacing'));
+        setText('label-columns', i18n.get('adjustGridColumns'));
         setText('grid-columns-label', i18n.get('columns'));
         setText('desc-grid-columns', i18n.get('descGridColumns'));
+
+        // Amazon
+        setText('btn-remove-sponsored', i18n.get('removeSponsored'));
+        setText('desc-amazon', i18n.get('descAmazon'));
 
         updateButtonText();
     }
@@ -77,14 +86,27 @@ document.addEventListener('DOMContentLoaded', function() {
         setText('btn-toggle-font', state.fontMode ? i18n.get('stopModify') : i18n.get('startModify'));
         setText('btn-toggle-remove', state.removeMode ? i18n.get('stopRemove') : i18n.get('startRemove'));
         setText('btn-toggle-element-bg', state.bgMode ? i18n.get('stopModifyBg') : i18n.get('startModifyBg'));
+        setText('btn-toggle-spacing', state.layoutMode ? i18n.get('stopSpacing') : i18n.get('startSpacing'));
+    }
+
+    function updateButtonStates() {
+        const buttons = {
+            'btn-toggle-font': state.fontMode,
+            'btn-toggle-remove': state.removeMode,
+            'btn-toggle-element-bg': state.bgMode,
+            'btn-toggle-spacing': state.layoutMode
+        };
+
+        Object.entries(buttons).forEach(([id, isActive]) => {
+            const btn = document.getElementById(id);
+            if (btn) {
+                btn.classList.toggle('active', isActive);
+            }
+        });
     }
 
     // ========== 脚本注入 ==========
     
-    /**
-     * 注入公共模块到页面
-     * @param {number} tabId
-     */
     async function injectCommonScripts(tabId) {
         await chrome.scripting.executeScript({
             target: { tabId },
@@ -92,11 +114,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    /**
-     * 注入功能模块到页面
-     * @param {number} tabId
-     * @param {string} feature - 功能名称
-     */
     async function injectFeatureScripts(tabId, feature) {
         const scripts = FEATURE_SCRIPTS[feature];
         if (!scripts || scripts.length === 0) return;
@@ -107,34 +124,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    /**
-     * 发送消息到内容脚本
-     * @param {number} tabId
-     * @param {Object} message
-     */
     function sendMessage(tabId, message) {
         chrome.tabs.sendMessage(tabId, message);
     }
-
-    // ========== 折叠面板逻辑 ==========
-    const headers = document.querySelectorAll('.control-header');
-    headers.forEach(header => {
-        header.addEventListener('click', () => {
-            const content = header.nextElementSibling;
-            const isOpen = content.classList.contains('open');
-
-            // 关闭所有面板
-            document.querySelectorAll('.control-content').forEach(c => {
-                c.classList.remove('open');
-                c.previousElementSibling.classList.remove('active');
-            });
-
-            if (!isOpen) {
-                content.classList.add('open');
-                header.classList.add('active');
-            }
-        });
-    });
 
     // ========== 页面背景色功能 ==========
     const pageBgColorInput = document.getElementById('page-bg-color-input');
@@ -177,9 +169,6 @@ document.addEventListener('DOMContentLoaded', function() {
             chrome.scripting.executeScript({
                 target: { tabId: tab.id },
                 func: (newColor) => {
-                    /**
-                     * RGB 转 HEX
-                     */
                     function rgbToHex(rgb) {
                         if (!rgb || rgb === 'transparent' || rgb === 'rgba(0, 0, 0, 0)') return null;
                         const match = rgb.match(/\d+/g);
@@ -187,14 +176,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         const r = parseInt(match[0]);
                         const g = parseInt(match[1]);
                         const b = parseInt(match[2]);
-                        // 如果是 rgba 且 alpha 为 0，视为透明
                         if (match.length >= 4 && parseInt(match[3]) === 0) return null;
                         return '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('');
                     }
 
-                    /**
-                     * 检查两个颜色是否相似（允许小差异）
-                     */
                     function isSimilarColor(hex1, hex2, threshold = 30) {
                         if (!hex1 || !hex2) return false;
                         const r1 = parseInt(hex1.slice(1, 3), 16);
@@ -207,17 +192,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         return diff <= threshold;
                     }
 
-                    // 获取页面当前背景色
                     const bodyStyle = window.getComputedStyle(document.body);
                     const bodyBgColor = rgbToHex(bodyStyle.backgroundColor) || '#ffffff';
 
-                    // 要检查的元素选择器
                     const selectors = 'body, div, section, article, main, aside, span, p, ul, ol, li, table, tr, td, th';
                     const elements = document.querySelectorAll(selectors);
 
                     let count = 0;
                     elements.forEach(el => {
-                        // 跳过插件元素
                         if (el.hasAttribute('data-sm-ignore') || 
                             (el.id && el.id.startsWith('sm-'))) {
                             return;
@@ -226,17 +208,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         const style = window.getComputedStyle(el);
                         const bgColor = rgbToHex(style.backgroundColor);
 
-                        // 只修改与页面背景同色的元素
                         if (bgColor && isSimilarColor(bgColor, bodyBgColor)) {
                             el.style.setProperty('background-color', newColor, 'important');
                             count++;
                         }
                     });
 
-                    // 也修改 body 本身
                     document.body.style.setProperty('background-color', newColor, 'important');
-
-                    console.log(`[Style Modifier] Modified ${count} elements with similar background color`);
+                    console.log(`[Style Modifier] Modified ${count} elements`);
                 },
                 args: [color]
             });
@@ -245,12 +224,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ========== 交互式功能 ==========
 
-    /**
-     * 创建功能切换处理器
-     * @param {string} stateKey - 状态键
-     * @param {string} feature - 功能名称
-     * @param {string} mode - 选择器模式
-     */
     function createToggleHandler(stateKey, feature, mode) {
         return async function() {
             const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -259,13 +232,12 @@ document.addEventListener('DOMContentLoaded', function() {
             resetAllModes(stateKey);
             state[stateKey] = !state[stateKey];
             updateButtonText();
+            updateButtonStates();
             updateStatusIndicators();
 
-            // 注入公共模块
             await injectCommonScripts(tab.id);
 
             if (state[stateKey]) {
-                // 注入功能模块并启动选择
                 await injectFeatureScripts(tab.id, feature);
                 sendMessage(tab.id, { action: 'startSelection', mode });
             } else {
@@ -282,27 +254,18 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('btn-toggle-font')?.addEventListener('click',
         createToggleHandler('fontMode', 'style', 'style'));
 
-    // 消除元素
+    // 隐藏元素
     document.getElementById('btn-toggle-remove')?.addEventListener('click',
         createToggleHandler('removeMode', 'remove', 'remove'));
 
-    // ========== Amazon 功能 ==========
-    document.getElementById('btn-remove-sponsored')?.addEventListener('click', async function() {
-        const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-        if (!tab) return;
+    // 调整间距
+    document.getElementById('btn-toggle-spacing')?.addEventListener('click',
+        createToggleHandler('layoutMode', 'layout', 'layout'));
 
-        await injectCommonScripts(tab.id);
-        await injectFeatureScripts(tab.id, 'amazon');
-        sendMessage(tab.id, { action: 'removeAmazonSponsored' });
-    });
-
-    // Amazon 网格列数调整
+    // ========== 列数调整功能 ==========
     const gridColumnsInput = document.getElementById('grid-columns-input');
     const gridColumnsValue = document.getElementById('grid-columns-value');
 
-    /**
-     * 应用网格列数调整
-     */
     async function applyGridColumns() {
         const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
         if (!tab) return;
@@ -316,23 +279,25 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if (gridColumnsInput && gridColumnsValue) {
-        // 滑块拖动时更新数字显示并实时应用
+        // 拖动过程中实时应用
         gridColumnsInput.addEventListener('input', function() {
             gridColumnsValue.textContent = gridColumnsInput.value;
-            console.log('[Popup] Grid slider value changed to:', gridColumnsInput.value);
-        });
-
-        // 滑块释放时应用网格调整
-        gridColumnsInput.addEventListener('change', function() {
-            console.log('[Popup] Grid slider released, applying columns:', gridColumnsInput.value);
             applyGridColumns();
         });
     }
 
-    // 点击标题也可以应用（保持兼容）
-    document.getElementById('btn-adjust-grid')?.addEventListener('click', function() {
-        console.log('[Popup] Grid adjust button clicked');
+    document.getElementById('btn-apply-columns')?.addEventListener('click', function() {
         applyGridColumns();
+    });
+
+    // ========== Amazon 功能 ==========
+    document.getElementById('btn-remove-sponsored')?.addEventListener('click', async function() {
+        const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+        if (!tab) return;
+
+        await injectCommonScripts(tab.id);
+        await injectFeatureScripts(tab.id, 'amazon');
+        sendMessage(tab.id, { action: 'removeAmazonSponsored' });
     });
 
     // ========== 辅助函数 ==========
@@ -345,21 +310,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateStatusIndicators() {
-        const statusFont = document.getElementById('status-font');
-        const statusRemove = document.getElementById('status-remove');
-        const statusBg = document.getElementById('status-bg');
-
-        if (statusFont) {
-            statusFont.classList.toggle('active', state.fontMode);
-        }
-
-        if (statusRemove) {
-            statusRemove.classList.toggle('active', state.removeMode);
-        }
-
-        if (statusBg) {
-            statusBg.classList.toggle('active', state.bgMode);
-        }
+        document.getElementById('status-bg')?.classList.toggle('active', state.bgMode);
+        document.getElementById('status-font')?.classList.toggle('active', state.fontMode);
+        document.getElementById('status-remove')?.classList.toggle('active', state.removeMode);
+        document.getElementById('status-layout')?.classList.toggle('active', state.layoutMode);
     }
 
     // ========== 初始化 ==========

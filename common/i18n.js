@@ -15,10 +15,11 @@
         'apply': { zh: '确定', en: 'Apply' },
 
         // 功能组标题
-        'interfaceStyle': { zh: '修改界面样式', en: 'Appearance' },
-        'changeFont': { zh: '修改字体样式', en: 'Text Style' },
+        'interfaceStyle': { zh: '外观', en: 'Appearance' },
+        'changeFont': { zh: '文字样式', en: 'Text Style' },
         'removeElement': { zh: '隐藏元素', en: 'Hide Elements' },
         'amazonTools': { zh: 'Amazon 工具', en: 'Amazon Tools' },
+        'layoutTools': { zh: '布局', en: 'Layout' },
 
         // 界面样式子功能
         'pageBackground': { zh: '页面背景色', en: 'Page Background' },
@@ -32,17 +33,31 @@
         'stopModify': { zh: '停止修改', en: 'Stop Editing' },
         'descFont': { zh: '点击页面上的文字来修改其样式', en: 'Click on any text to change its style' },
 
-
         'startRemove': { zh: '开始隐藏', en: 'Start Hiding' },
         'stopRemove': { zh: '停止隐藏', en: 'Stop Hiding' },
         'descRemove': { zh: '点击页面上的元素来隐藏它', en: 'Click on any element to hide it' },
 
-        // Amazon
-        'removeSponsored': { zh: '清除广告内容', en: 'Remove Ads' },
-        'descAmazon': { zh: '自动隐藏 Amazon 搜索结果中的广告', en: 'Automatically hide sponsored products in search results' },
-        'adjustGridColumns': { zh: '调整单行列数', en: 'Adjust Columns' },
+        // 布局功能
+        'adjustSpacing': { zh: '调整间距', en: 'Adjust Spacing' },
+        'startSpacing': { zh: '开始调整', en: 'Start Adjusting' },
+        'stopSpacing': { zh: '停止调整', en: 'Stop Adjusting' },
+        'descSpacing': { zh: '点击元素调整其内外边距', en: 'Click element to adjust its margins and padding' },
+        'adjustGridColumns': { zh: '调整列数', en: 'Adjust Columns' },
         'columns': { zh: '列数', en: 'Columns' },
-        'descGridColumns': { zh: '调整 Amazon 搜索结果的显示列数（2-8列）', en: 'Adjust the number of columns for Amazon search results (2-8 columns)' },
+        'descGridColumns': { zh: '调整页面列表的显示列数（2-8列）', en: 'Adjust grid columns for list containers (2-8 columns)' },
+        'layoutEdit': { zh: '调整间距', en: 'Adjust Spacing' },
+        'padding': { zh: '内边距', en: 'Padding' },
+        'margin': { zh: '外边距', en: 'Margin' },
+        'top': { zh: '上', en: 'Top' },
+        'right': { zh: '右', en: 'Right' },
+        'bottom': { zh: '下', en: 'Bottom' },
+        'left': { zh: '左', en: 'Left' },
+        'enableReflow': { zh: '自动调整排列', en: 'Auto-adjust layout' },
+        'reflowHint': { zh: '防止内容被挤压或重叠', en: 'Prevents content from being squeezed' },
+
+        // Amazon
+        'removeSponsored': { zh: '清除广告', en: 'Remove Ads' },
+        'descAmazon': { zh: '自动隐藏搜索结果中的广告', en: 'Auto hide sponsored products in search results' },
 
         // 编辑器面板
         'styleEdit': { zh: '文字样式', en: 'Text Style' },
